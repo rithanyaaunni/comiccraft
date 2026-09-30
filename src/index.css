@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-comic-title {
+    font-family: 'Bangers', cursive, Impact, sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .font-comic-body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+  }
+}
+
+.comic-shadow {
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.comic-shadow-lg {
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.comic-shadow-sm {
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.comic-halftone {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+}
+
+.comic-speech-tail::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 24px;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: #000 transparent;
+  display: block;
+  width: 0;
+}
+
+.comic-speech-tail::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 26px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: #fff transparent;
+  display: block;
+  width: 0;
+  z-index: 10;
+}

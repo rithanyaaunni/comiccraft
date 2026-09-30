@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}ComicCraft – Turn Your Imagination Into A Comic{% endblock %}
+
+{% block content %}
+<div class="space-y-10">
+
+    <!-- Hero Section -->
+    <section class="comic-card bg-amber-300 text-black p-8 md:p-12 relative overflow-hidden">
+        <div class="comic-dot-grid absolute inset-0 opacity-15 pointer-events-none"></div>
+        <div class="relative z-10 max-w-3xl">
+            <span class="inline-block bg-black text-amber-300 text-xs font-black uppercase px-3 py-1 mb-4 border-2 border-black transform -rotate-1 shadow-comic-sm">
+                5-Panel Sequential Art Engine
+            </span>
+            <h1 class="font-comic-title text-4xl sm:text-6xl text-black tracking-wide leading-tight mb-4 drop-shadow-sm">
+                Turn your imagination into a comic.
+            </h1>
+            <p class="font-comic-body text-xl md:text-2xl text-slate-900 leading-relaxed font-semibold mb-6">
+                Enter your story idea and let AI craft a complete five-panel comic strip—featuring plot outline, character dialogue, narrator voiceover, atmospheric captions, and full custom visual illustrations!
+            </p>
+            <div class="flex flex-wrap items-center gap-6 text-sm font-bold text-slate-800">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-black inline-block"></span> Gemini Flash Outline</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-black inline-block"></span> Gemini Pro Dialogue</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-black inline-block"></span> 5 Visual Panels</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-black inline-block"></span> Instant PDF Export</span>
+            </div>
+        </div>
+    </section>
+
+    {% if error_message %}
+    <div class="comic-alert-danger">
+        <strong>⚠️ Comic Creation Error:</strong> {{ error_message }}
+    </div>
+    {% endif %}
+
+    <!-- Creation Form Section -->
+    <section class="comic-card bg-slate-800 border-4 border-black p-6 md:p-10 shadow-comic-lg">
+        <div class="border-b-2 border-slate-700 pb-4 mb-8">
+            <h2 class="font-comic-title text-3xl text-amber-400 tracking-wide m-0">Create Your 5-Panel Comic</h2>
+            <p class="text-slate-300 text-sm mt-1">Fill out the parameters below to launch the multi-stage AI comic generator.</p>
+        </div>
+
+        <form id="comicForm" action="/generate" method="POST" class="space-y-6">
+
+            <!-- Story Prompt -->
+            <div class="form-group">
+                <label for="story_prompt" class="comic-label">
+                    Story Prompt <span class="text-amber-400 font-normal text-xs ml-2">(What happens in your adventure?)</span>
+                </label>
+                <textarea 
+                    id="story_prompt" 
+                    name="story_prompt" 
+                    rows="3" 
+                    required 
+                    minlength="5"
+                    maxlength="2000"
+                    placeholder="e.g. A brave fox explores an enchanted forest and discovers a hidden magical city."
+                    class="comic-input"
+                >{{ story_prompt or default_prompt }}</textarea>
+                <div class="flex justify-between items-center text-xs text-slate-400 mt-1">
+                    <span>Describe your core premise or conflict.</span>
+                    <button type="button" id="btnRandomPrompt" class="text-amber-400 hover:underline font-semibold">🎲 Surprise me with an idea</button>
+                </div>
+            </div>
+
+            <!-- Character & Setting Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Main Character -->
+                <div class="form-group">
+                    <label for="character_name" class="comic-label">
+                        Main Character <span class="text-amber-400 font-normal text-xs ml-2">(Protagonist name)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="character_name" 
+                        name="character_name" 
+                        required 
+                        minlength="1" 
+                        maxlength="100" 
+                        placeholder="e.g. Luna"
+                        value="{{ character_name or default_character }}"
+                        class="comic-input"
+                    />
+                </div>
+
+                <!-- Setting -->
+                <div class="form-group">
+                    <label for="setting" class="comic-label">
+                        Setting <span class="text-amber-400 font-normal text-xs ml-2">(World location)</span>
+                    </label>
+                    <select id="setting" name="setting" class="comic-select">
+                        <option value="Enchanted Forest" {% if setting == "Enchanted Forest" or not setting %}selected{% endif %}>Enchanted Forest</option>
+                        <option value="School" {% if setting == "School" %}selected{% endif %}>School</option>
+                        <option value="Future City" {% if setting == "Future City" %}selected{% endif %}>Future City</option>
+                        <option value="Space" {% if setting == "Space" %}selected{% endif %}>Space</option>
+                        <option value="Underwater World" {% if setting == "Underwater World" %}selected{% endif %}>Underwater World</option>
+                        <option value="Ancient Kingdom" {% if setting == "Ancient Kingdom" %}selected{% endif %}>Ancient Kingdom</option>
+                        <option value="Custom" {% if setting == "Custom" %}selected{% endif %}>Custom</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tone & Art Style Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tone -->
+                <div class="form-group">
+                    <label for="tone" class="comic-label">
+                        Tone <span class="text-amber-400 font-normal text-xs ml-2">(Story mood)</span>
+                    </label>
+                    <select id="tone" name="tone" class="comic-select">
+                        <option value="Adventure" {% if tone == "Adventure" or not tone %}selected{% endif %}>Adventure</option>
+                        <option value="Light-hearted" {% if tone == "Light-hearted" %}selected{% endif %}>Light-hearted</option>
+                        <option value="Funny" {% if tone == "Funny" %}selected{% endif %}>Funny</option>
+                        <option value="Dramatic" {% if tone == "Dramatic" %}selected{% endif %}>Dramatic</option>
+                        <option value="Poetic" {% if tone == "Poetic" %}selected{% endif %}>Poetic</option>
+                        <option value="Mysterious" {% if tone == "Mysterious" %}selected{% endif %}>Mysterious</option>
+                    </select>
+                </div>
+
+                <!-- Art Style -->
+                <div class="form-group">
+                    <label for="art_style" class="comic-label">
+                        Art Style <span class="text-amber-400 font-normal text-xs ml-2">(Visual rendering)</span>
+                    </label>
+                    <select id="art_style" name="art_style" class="comic-select">
+                        <option value="Comic Book" {% if art_style == "Comic Book" or not art_style %}selected{% endif %}>Comic Book</option>
+                        <option value="Anime" {% if art_style == "Anime" %}selected{% endif %}>Anime</option>
+                        <option value="Cartoon" {% if art_style == "Cartoon" %}selected{% endif %}>Cartoon</option>
+                        <option value="Pixel Art" {% if art_style == "Pixel Art" %}selected{% endif %}>Pixel Art</option>
+                        <option value="Fantasy Illustration" {% if art_style == "Fantasy Illustration" %}selected{% endif %}>Fantasy Illustration</option>
+                        <option value="Realistic" {% if art_style == "Realistic" %}selected{% endif %}>Realistic</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+                <button type="submit" id="btnSubmit" class="comic-btn-primary w-full py-4 text-2xl font-comic-title tracking-wider flex items-center justify-center gap-3">
+                    <span id="btnIcon">✨</span>
+                    <span id="btnText">✨ Generate My Comic</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading Overlay (Hidden until submitted) -->
+        <div id="loadingOverlay" class="hidden mt-8 p-8 border-4 border-black bg-amber-400 text-black text-center shadow-comic">
+            <div class="comic-spinner mx-auto mb-4"></div>
+            <h3 class="font-comic-title text-4xl mb-2 tracking-wide">Creating your comic...</h3>
+            <p id="loadingStage" class="font-comic-body font-bold text-lg text-slate-900">
+                Engaging Gemini Flash for the 5-panel story arc...
+            </p>
+            <div class="flex justify-center gap-2 mt-6">
+                <span class="comic-dot animate-pulse">Panel 1</span>
+                <span class="comic-dot animate-pulse delay-100">Panel 2</span>
+                <span class="comic-dot animate-pulse delay-200">Panel 3</span>
+                <span class="comic-dot animate-pulse delay-300">Panel 4</span>
+                <span class="comic-dot animate-pulse delay-500">Panel 5</span>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

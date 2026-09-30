@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}{{ comic.title }} – ComicCraft Preview{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+
+    <!-- Comic Header Banner -->
+    <div class="comic-card bg-slate-900 border-4 border-black p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-comic">
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <span class="bg-amber-400 text-black font-extrabold text-xs px-2.5 py-0.5 rounded border border-black uppercase">
+                    5-Panel Complete Strip
+                </span>
+                <span class="text-slate-400 text-xs font-mono">Style: {{ comic.art_style }} • Tone: {{ comic.tone }}</span>
+            </div>
+            <h1 class="font-comic-title text-4xl sm:text-5xl text-amber-400 tracking-wider m-0">
+                {{ comic.title }}
+            </h1>
+            <p class="text-slate-300 text-sm mt-1">
+                Featuring <strong class="text-white">{{ comic.character_name }}</strong> in the realm of <strong class="text-white">{{ comic.setting }}</strong>
+            </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+            <a href="{{ comic.pdf_url }}" download class="comic-btn-primary py-3 px-6 text-lg font-comic-title tracking-wider flex items-center gap-2">
+                <span>📄</span>
+                <span>Download PDF Edition</span>
+            </a>
+            <a href="/" class="comic-btn-secondary py-3 px-4 text-sm font-bold">
+                ➕ New Comic
+            </a>
+        </div>
+    </div>
+
+    <!-- 5 Panels Layout Grid / Sequential Strip -->
+    <div class="space-y-10">
+        {% for panel in comic.layout %}
+        <article class="comic-panel-container bg-slate-800 border-4 border-black shadow-comic-lg overflow-hidden">
+            <!-- Panel Header bar -->
+            <div class="bg-amber-400 border-b-4 border-black px-6 py-2.5 flex items-center justify-between text-black">
+                <div class="flex items-center gap-3">
+                    <span class="font-comic-title text-2xl tracking-wider">PANEL {{ panel.panel_number }}</span>
+                    <span class="text-black font-bold text-xs uppercase tracking-widest bg-black text-amber-400 px-2 py-0.5 border border-black">
+                        {{ panel.title }}
+                    </span>
+                </div>
+                <span class="text-xs font-mono font-bold text-slate-900">#0{{ panel.panel_number }} of 05</span>
+            </div>
+
+            <!-- Panel Content Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+                <!-- Visual Illustration -->
+                <div class="lg:col-span-7 flex flex-col justify-center">
+                    <div class="comic-image-frame border-4 border-black bg-black rounded-sm overflow-hidden relative shadow-comic">
+                        {% if panel.image_url %}
+                        <img 
+                            src="{{ panel.image_url }}" 
+                            alt="Panel {{ panel.panel_number }} - {{ panel.title }}" 
+                            class="w-full h-auto aspect-[3/2] object-cover block"
+                            loading="lazy"
+                        />
+                        {% else %}
+                        <div class="w-full aspect-[3/2] flex items-center justify-center bg-slate-900 text-slate-400 font-comic-body">
+                            [Panel Image Unavailable]
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mt-2 text-xs text-slate-400 font-mono italic">
+                        Visual Prompt: {{ panel.image_prompt[:110] }}...
+                    </div>
+                </div>
+
+                <!-- Story & Narrative Text Elements -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                    <!-- Caption Box -->
+                    {% if panel.caption %}
+                    <div class="comic-caption-box border-2 border-amber-500 bg-amber-100 text-amber-950 p-3 shadow-comic-sm">
+                        <span class="text-[10px] font-black uppercase tracking-wider block text-amber-800 mb-0.5">Caption</span>
+                        <p class="font-comic-body text-base font-bold m-0 leading-tight">
+                            {{ panel.caption }}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Scene Description -->
+                    <div class="bg-slate-900/80 border-l-4 border-slate-600 p-3 rounded-r text-sm text-slate-300">
+                        <strong class="text-amber-300 font-sans text-xs uppercase tracking-wide block mb-1">Scene:</strong>
+                        <p class="m-0 leading-relaxed font-sans text-slate-300">
+                            {{ panel.scene_description }}
+                        </p>
+                    </div>
+
+                    <!-- Narration Voiceover -->
+                    {% if panel.narration %}
+                    <div class="bg-indigo-950/60 border border-indigo-700/50 p-3 rounded text-sm text-indigo-200 italic">
+                        <strong class="text-indigo-400 font-sans text-xs uppercase not-italic tracking-wide block mb-1">Narration:</strong>
+                        "{{ panel.narration }}"
+                    </div>
+                    {% endif %}
+
+                    <!-- Spoken Dialogue Balloons -->
+                    {% if panel.dialogue %}
+                    <div class="space-y-2 pt-1">
+                        <span class="text-[11px] font-mono uppercase tracking-wider text-slate-400 block">Dialogue:</span>
+                        {% for line in panel.dialogue %}
+                        <div class="comic-dialogue-bubble bg-white text-slate-950 font-comic-body font-bold text-base px-4 py-2.5 border-2 border-black rounded-2xl shadow-comic-sm relative">
+                            {{ line }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    <!-- Bottom Actions Card -->
+    <div class="comic-card bg-amber-400 border-4 border-black p-8 text-black text-center shadow-comic-lg flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="text-left">
+            <h3 class="font-comic-title text-3xl mb-1">Love this 5-panel story?</h3>
+            <p class="font-semibold text-slate-900 text-sm m-0">Download the full-resolution PDF booklet or generate another comic with new characters!</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="{{ comic.pdf_url }}" download class="comic-btn-dark py-3 px-6 text-xl font-comic-title tracking-wider">
+                📄 Download PDF
+            </a>
+            <a href="/" class="comic-btn-secondary py-3 px-6 text-base font-bold bg-white text-black border-2 border-black hover:bg-slate-100">
+                Create Another Story
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}PDF Export Success – ComicCraft{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto py-12 text-center">
+    <div class="comic-card bg-slate-800 border-4 border-black p-8 md:p-12 shadow-comic-lg">
+        <div class="w-20 h-20 bg-amber-400 text-black border-4 border-black rounded-full flex items-center justify-center font-comic-title text-4xl mx-auto mb-6 shadow-comic">
+            ✓
+        </div>
+        <h1 class="font-comic-title text-4xl text-amber-400 mb-2">Export Complete!</h1>
+        <p class="text-slate-300 text-base mb-6">
+            Your five-panel comic booklet <strong class="text-white">"{{ title }}"</strong> has been formatted into a printable PDF.
+        </p>
+
+        <div class="space-y-4">
+            <a href="{{ pdf_url }}" download class="comic-btn-primary w-full py-4 text-xl font-comic-title tracking-wider block text-center">
+                📥 Download PDF File
+            </a>
+            <a href="/" class="comic-btn-secondary w-full py-3 text-sm font-bold block text-center">
+                Back to Comic Studio
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

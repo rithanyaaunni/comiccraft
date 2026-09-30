@@ -1,0 +1,249 @@
+/* ComicCraft – Comic-Style UI Theme */
+
+:root {
+    --comic-yellow: #f5c518;
+    --comic-yellow-dark: #d9ab0a;
+    --comic-black: #0c0e14;
+    --comic-card-bg: #1e2433;
+    --comic-panel-bg: #151922;
+}
+
+body {
+    background-color: var(--comic-black);
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.font-comic-title {
+    font-family: 'Bangers', cursive, Impact, sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.font-comic-body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+/* Comic Card & Panel Containers */
+.comic-card {
+    border-radius: 8px;
+    border: 4px solid #000;
+    box-shadow: 6px 6px 0px #000;
+}
+
+.comic-panel-container {
+    border-radius: 8px;
+    border: 4px solid #000;
+    box-shadow: 6px 6px 0px #000;
+    background-color: var(--comic-panel-bg);
+}
+
+.shadow-comic {
+    box-shadow: 4px 4px 0px #000;
+}
+
+.shadow-comic-lg {
+    box-shadow: 8px 8px 0px #000;
+}
+
+.shadow-comic-sm {
+    box-shadow: 3px 3px 0px #000;
+}
+
+/* Form Controls */
+.comic-label {
+    display: flex;
+    align-items: center;
+    font-family: 'Bangers', cursive, sans-serif;
+    font-size: 1.25rem;
+    color: #f1f5f9;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.comic-input, .comic-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #0f131a;
+    border: 3px solid #334155;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s ease-in-out;
+    box-sizing: border-box;
+}
+
+.comic-input:focus, .comic-select:focus {
+    outline: none;
+    border-color: var(--comic-yellow);
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.25);
+}
+
+/* Comic Buttons */
+.comic-btn-primary {
+    background-color: var(--comic-yellow);
+    color: #000000;
+    font-weight: 800;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000000;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.comic-btn-primary:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+    background-color: #ffd83d;
+}
+
+.comic-btn-primary:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+}
+
+.comic-btn-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.comic-btn-secondary {
+    background-color: #334155;
+    color: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000000;
+    transition: transform 0.1s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.comic-btn-secondary:hover {
+    background-color: #475569;
+    transform: translate(-1px, -1px);
+}
+
+.comic-btn-dark {
+    background-color: #000000;
+    color: var(--comic-yellow);
+    border: 3px solid #000000;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000000;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+
+.comic-btn-dark:hover {
+    background-color: #1e293b;
+    transform: translate(-2px, -2px);
+}
+
+/* Nav Links */
+.comic-nav-link {
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.comic-nav-link:hover {
+    background-color: #000000;
+    color: var(--comic-yellow);
+    border-color: #000000;
+}
+
+/* Badges */
+.comic-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    border: 2px solid #000;
+}
+
+.badge-mock {
+    background-color: #38bdf8;
+    color: #000000;
+}
+
+.badge-live {
+    background-color: #4ade80;
+    color: #000000;
+}
+
+/* Halftone and Dot patterns */
+.comic-dot-grid {
+    background-image: radial-gradient(#000 1.5px, transparent 1.5px);
+    background-size: 12px 12px;
+}
+
+/* Speech bubbles and boxes */
+.comic-dialogue-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #000 transparent;
+    display: block;
+    width: 0;
+}
+
+.comic-dialogue-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 22px;
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+}
+
+/* Spinner */
+.comic-spinner {
+    width: 48px;
+    height: 48px;
+    border: 6px solid #000;
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.comic-dot {
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem;
+    background: #000;
+    color: var(--comic-yellow);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.comic-alert-danger {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: 3px solid #000000;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px #000000;
+}

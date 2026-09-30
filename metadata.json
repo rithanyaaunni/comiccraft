@@ -1,0 +1,6 @@
+{
+  "name": "ComicCraft – AI Comic Story Creator",
+  "description": "Transform simple story ideas into five-panel comics with outline, narration, captions, character dialogue, and illustrations powered by Gemini models.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
